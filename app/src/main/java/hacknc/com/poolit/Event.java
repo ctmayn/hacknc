@@ -45,20 +45,6 @@ public class Event {
         contributions = new ArrayList<Double>();
     }
 
-    public Event(String title, String info, int target, int currentAmount, User owner, List<User> members, List<User> pending, List<User> contributors, List<Double> contributions, Date date, String eventID) {
-        this.title = title;
-        this.info = info;
-        this.target = target;
-        this.currentAmount = currentAmount;
-        this.owner = owner;
-        this.members = members;
-        this.pending = pending;
-        this.contributors = contributors;
-        this.contributions = contributions;
-        this.eventDate = date;
-        this.eventID = eventID;
-    }
-
     public Event(Item i) {
         title = (String) i.get("userId");
         info = (String) i.get("info");
