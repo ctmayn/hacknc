@@ -9,7 +9,7 @@ public class Transfer {
     User sender;
     User recipient;
 
-    public Transfer(){
-
+    public Transfer(User sender, User recipeint, double value){
+        
     }
 }
