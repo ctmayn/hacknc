@@ -1,8 +1,13 @@
 package hacknc.com.poolit;
 
-/**
- * Created by Robby on 10/29/2016.
- */
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
-public class HomeActivity {
+public class HomeActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+    }
 }
