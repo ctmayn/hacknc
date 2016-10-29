@@ -71,9 +71,8 @@ public class Event {
      *
      * @param tar Sets the target number of dollars for the event.
      */
-    public void setTarget(double tar){
+    private void setTarget(double tar){
         target = tar;
-        // Should this be allowed? The less you can change the better, lets us simplify upkeep
     }
 
     /**
