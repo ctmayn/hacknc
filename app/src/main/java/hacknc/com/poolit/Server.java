@@ -72,9 +72,7 @@ public class Server {
 
         Item outcome = table.getItem(spec);
 
-        Event e = new Event((String) outcome.get("userId") , (String) outcome.get("info"), (int) outcome.get("target"), (int) outcome.get("currentAmount"), (User) outcome.get("owner"),
-                (List<User>) outcome.get("members"), (List<User>) outcome.get("pending"), (List<User>) outcome.get("contributors"), (List<Double>) outcome.get("contributions"),
-                (Date) outcome.get("date"), eventID);
+        Event e = new Event(outcome);
 
         return e;
     }
