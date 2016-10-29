@@ -14,7 +14,7 @@ public class Transfer {
     User recipient;
     private static final String KEY = "d1cab498a02db5a8370dd4fe90e52321";
 
-    public Transfer(User sender, User recipeint, final int value){
+    public static void transfer(User sender, User recipient, final int value){
         NessieClient client = NessieClient.getInstance(KEY);
         client.ACCOUNT.getAccount(sender.getAccountID(), new NessieResultsListener() {
             @Override
@@ -41,13 +41,13 @@ public class Transfer {
                 throw new IllegalArgumentException("Account ID did not match any in the system!");
             }
         });
-        client.ACCOUNT.getAccount(sender.getAccountID(), new NessieResultsListener() {
+        client.ACCOUNT.getAccount(recipient.getAccountID(), new NessieResultsListener() {
             @Override
             public void onSuccess(Object result) {
                 Account recipientAcc = (Account) result;
                 NessieClient client = NessieClient.getInstance(KEY);
                 Account newAcc = new Account.Builder()
-                        .balance(recipientAcc.getBalance() - value)
+                        .balance(recipientAcc.getBalance() + value)
                         .build();
                 client.ACCOUNT.updateAccount(recipientAcc.getId(), newAcc, new NessieResultsListener() {
                     @Override

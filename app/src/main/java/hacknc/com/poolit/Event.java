@@ -90,7 +90,7 @@ public class Event {
      */
     public void contribute(User account, int amount){
         //Pull money from bank from a user.
-        Transfer t = new Transfer(account, owner, amount);
+        Transfer.transfer(account, owner, amount);
         addContributor(account, amount);
     }
 
