@@ -23,7 +23,7 @@ public class User {
         score = 0;
     }
 
-    public User(String name, List<User> friends, List<Event> events, int score, String userID) {
+    public User(String name, List<User> friends, List<Event> events, int score, String userID, String accountID) {
         this.name = name;
         this.friends = friends;
         this.events = events;

@@ -1,20 +1,8 @@
 package hacknc.com.poolit;
 
 import com.reimaginebanking.api.nessieandroidsdk.*;
-import com.reimaginebanking.api.nessieandroidsdk.constants.AccountType;
 import com.reimaginebanking.api.nessieandroidsdk.models.Account;
-import com.reimaginebanking.api.nessieandroidsdk.models.PostResponse;
-import com.reimaginebanking.api.nessieandroidsdk.models.PutDeleteResponse;
-import com.reimaginebanking.api.nessieandroidsdk.requestclients.AccountClient;
 import com.reimaginebanking.api.nessieandroidsdk.requestclients.NessieClient;
-import com.reimaginebanking.api.nessieandroidsdk.requestservices.AccountService;
-
-import java.util.List;
-
-import retrofit.Callback;
-import retrofit.http.Body;
-import retrofit.http.Path;
-import retrofit.http.Query;
 
 /**
  * Created by Christopher on 10/29/2016.
@@ -24,7 +12,7 @@ public class Transfer {
     int value;
     User sender;
     User recipient;
-    private static final String KEY = "d1cab498a02db5a8370dd4fe90e52321"
+    private static final String KEY = "d1cab498a02db5a8370dd4fe90e52321";
 
     public Transfer(User sender, User recipeint, final int value){
         NessieClient client = NessieClient.getInstance(KEY);

@@ -2,12 +2,18 @@ package hacknc.com.poolit;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
+import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.QueryOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
+import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
+import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
 import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
 import com.amazonaws.services.dynamodbv2.model.KeyType;
@@ -53,16 +59,16 @@ public class Server {
 
         Item outcome = table.getItem(spec);
 
-        User u = new User((String) outcome.get("userId"), (List<User>) outcome.get("friends"), (List<Event>) outcome.get("events"), (int) outcome.get("score"), userID );
+        User u = new User((String) outcome.get("name"), (List<User>) outcome.get("friends"), (List<Event>) outcome.get("events"), (int) outcome.get("score"), userID, (String) outcome.get("account") );
 
         return u;
     }
 
     public Event getEvent(String eventID) {
         GetItemSpec spec = new GetItemSpec()
-                .withPrimaryKey("userId", eventID);
+                .withPrimaryKey("eventId", eventID);
 
-        Table table = db.getTable("Users");
+        Table table = db.getTable("Event");
 
         Item outcome = table.getItem(spec);
 
@@ -78,9 +84,26 @@ public class Server {
      * @param name The name of the account to look up
      * @return The list of accounts which match the lookup phrase
      */
-    public List<User> getAccounts(String name) {
-        //returns a list of accounts that match the given name (or partial name)
-        return null;
+    public List<User> getUsersByName(String name) {
+        QuerySpec spec = new QuerySpec()
+                .withKeyConditionExpression("name")
+                .withValueMap(new ValueMap()
+                        .withString("name", name));
+
+
+        Table table = db.getTable("Users");
+
+        ItemCollection<QueryOutcome> list = table.query(spec);
+
+        ArrayList<User> matches = new ArrayList<User>();
+        Iterator<Item> iterator = list.iterator();
+        Item item = null;
+        while (iterator.hasNext()) {
+            item = iterator.next();
+            User u = new User((String) item.get("name"), (List<User>) item.get("friends"), (List<Event>) item.get("events"), (int) item.get("score"), (String) item.get("userId"), (String) item.get("account"));
+            matches.add(u);
+        }
+        return matches;
     }
 
     /**
