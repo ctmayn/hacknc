@@ -1,10 +1,13 @@
 package hacknc.com.poolit;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
 import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
 import com.amazonaws.services.dynamodbv2.model.KeyType;
@@ -19,14 +22,15 @@ public class Server {
 
     /** The instance of the server interface */
     private static Server instance;
+    private DynamoDB db;
 
     private Server() {
         AmazonDynamoDBClient client = new AmazonDynamoDBClient()
                 .withEndpoint("http://localhost:8000");
 
-        DynamoDB dynamoDB = new DynamoDB(client);
+        db = new DynamoDB(client);
 
-        
+
     }
 
     /**
@@ -39,6 +43,34 @@ public class Server {
         }
 
         return instance;
+    }
+
+    public User getUser(String userID) {
+        GetItemSpec spec = new GetItemSpec()
+                .withPrimaryKey("userId", userID);
+
+        Table table = db.getTable("Users");
+
+        Item outcome = table.getItem(spec);
+
+        User u = new User((String) outcome.get("userId"), (List<User>) outcome.get("friends"), (List<Event>) outcome.get("events"), (int) outcome.get("score"), userID );
+
+        return u;
+    }
+
+    public Event getEvent(String eventID) {
+        GetItemSpec spec = new GetItemSpec()
+                .withPrimaryKey("userId", eventID);
+
+        Table table = db.getTable("Users");
+
+        Item outcome = table.getItem(spec);
+
+        Event e = new Event((String) outcome.get("userId") , (String) outcome.get("info"), (int) outcome.get("target"), (int) outcome.get("currentAmount"), (User) outcome.get("owner"),
+                (List<User>) outcome.get("members"), (List<User>) outcome.get("pending"), (List<User>) outcome.get("contributors"), (List<Double>) outcome.get("contributions"),
+                (Date) outcome.get("date"), eventID);
+
+        return e;
     }
 
     /**
