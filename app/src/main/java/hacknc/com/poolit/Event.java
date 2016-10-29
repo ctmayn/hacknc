@@ -73,7 +73,7 @@ public class Event {
      */
     public void setTarget(double tar){
         target = tar;
-
+        // Should this be allowed? The less you can change the better, lets us simplify upkeep
     }
 
     /**
@@ -85,18 +85,20 @@ public class Event {
     }
 
     /**
-     *
-     * @param cur The amount to be
+     * @param account The contributing User
+     * @param amount The amount to be contributed
      */
-    public void contribute(User acc, double cur){
+    public void contribute(User account, int amount){
         //Pull money from bank from a user.
+        Transfer t = new Transfer(account, owner, amount);
+        addContributor(account, amount);
     }
 
     /**
      *
      * @param acc The member to be added to the list of members.
      */
-    public void addMember(User acc){
+    private void addMember(User acc){
         members.add(acc);
     }
 
@@ -110,10 +112,11 @@ public class Event {
 
     /**
      *
-     * @param acc The contributor to be added to the list of contributors.
+     * @param account The contributor to be added to the list of contributors.
      */
-    public void addContributor(User acc){
-        contributors.add(acc);
+    private void addContributor(User account, double amount){
+        contributors.add(account);
+        contributions.add(amount);
     }
 
     /**
@@ -145,6 +148,7 @@ public class Event {
     public void setInfo(String inf){
         info = inf;
     }
+
     public void acceptdeny(User acc, boolean response){
         Server.getInstance().RSVP(this.getID(), acc.getID(), response);
         pending.remove(acc);
@@ -165,7 +169,7 @@ public class Event {
      *
      * @param acc Sets the user to be the owner.
      */
-    public void setOwner(User acc){
+    private void setOwner(User acc){
         owner = acc;
     }
 
