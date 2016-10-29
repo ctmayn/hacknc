@@ -1,6 +1,16 @@
 package hacknc.com.poolit;
 
+import java.util.Arrays;
 import java.util.List;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
+import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
+import com.amazonaws.services.dynamodbv2.model.KeyType;
+import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
+import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
+
 
 /**
  * Created by Justin Patzer on 10/29/2016. Provides interface to server data
@@ -11,7 +21,12 @@ public class Server {
     private static Server instance;
 
     private Server() {
+        AmazonDynamoDBClient client = new AmazonDynamoDBClient()
+                .withEndpoint("http://localhost:8000");
 
+        DynamoDB dynamoDB = new DynamoDB(client);
+
+        
     }
 
     /**
