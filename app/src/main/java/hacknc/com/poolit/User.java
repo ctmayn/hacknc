@@ -14,6 +14,7 @@ public class User {
     private List<Event> events;
     private int score;
     private String userID;
+    private String accountID;
 
     public User(String name) {
         friends = new ArrayList<User>();
@@ -65,5 +66,9 @@ public class User {
 
     public void sync() {
         // Find server's copy of this User, sync values
+    }
+
+    public String getAccountID(){
+        return accountID;
     }
 }
