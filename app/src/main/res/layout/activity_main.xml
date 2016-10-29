@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5">
+
+    </GridLayout>
+
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
         <TableRow
             android:layout_width="match_parent"
@@ -23,11 +32,12 @@
             android:layout_height="match_parent" >
 
             <EditText
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:ems="10"
-                android:id="@+id/email" />
+                android:id="@+id/editText" />
+
         </TableRow>
 
         <TableRow
@@ -39,6 +49,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView2" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/editText2" />
+
         </TableRow>
 
         <TableRow
@@ -46,5 +70,16 @@
             android:layout_height="match_parent" >
 
         </TableRow>
+
     </TableLayout>
+
+    <Button
+        android:text="@string/loginText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/loginButton"
+        android:layout_weight="5"
+        android:layout_row="0"
+        android:layout_column="19" />
+
 </LinearLayout>

@@ -1,5 +1,6 @@
 package hacknc.com.poolit;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.*;
@@ -12,14 +13,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btnDoSomething= (Button)(findViewById(R.id.theBestButton));
-        btnDoSomething. setOnClickListener(new View.OnClickListener(){
+        Button loginButton = (Button) (findViewById(R.id.loginButton));
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                Log.i(TAG, "Button was pressed.");
-            }   
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(intent);
+
+            }
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         //Inflate the menu; This adds items to the action bar if it's present.
@@ -32,10 +36,7 @@ public class MainActivity extends AppCompatActivity {
         //will automatically handle clicks on the home/Up button
         //so long as ou specify a parent activity in AndroidManifestxml
         int id = item.getItemId();
-        if(id == R.id.action_settings){
-            return true;
 
-        }
         return super.onOptionsItemSelected(item);
 
     }
