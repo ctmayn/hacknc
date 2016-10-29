@@ -1,5 +1,7 @@
 package hacknc.com.poolit;
 
+import com.amazonaws.services.dynamodbv2.document.Item;
+
 import java.util.*;
 /**
  * Created by Christopher on 10/29/2016.
@@ -55,6 +57,20 @@ public class Event {
         this.contributions = contributions;
         this.eventDate = date;
         this.eventID = eventID;
+    }
+
+    public Event(Item i) {
+        title = (String) i.get("userId");
+        info = (String) i.get("info");
+        target = (int) i.get("target");
+        currentAmount = (int) i.get("currentAmount");
+        owner = (User) i.get("owner");
+        members = (List<User>) i.get("members");
+        pending = (List<User>) i.get("pending");
+        contributors = (List<User>) i.get("contributors");
+        contributions = (List<Double>) i.get("contributions");
+        eventDate = (Date) i.get("date");
+        eventID = (String) i.get("userId");
     }
     /**
      *
