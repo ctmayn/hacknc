@@ -22,6 +22,14 @@ public class User {
         score = 0;
     }
 
+    public User(String name, List<User> friends, List<Event> events, int score, String userID) {
+        this.name = name;
+        this.friends = friends;
+        this.events = events;
+        this.score = score;
+        this.userID = userID;
+    }
+
     /**
      * Returns the list of friends associated with this user
      * @return The friends attached to this account
