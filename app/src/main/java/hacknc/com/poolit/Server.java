@@ -59,7 +59,7 @@ public class Server {
 
         Item outcome = table.getItem(spec);
 
-        User u = new User((String) outcome.get("name"), (List<User>) outcome.get("friends"), (List<Event>) outcome.get("events"), (int) outcome.get("score"), userID, (String) outcome.get("account") );
+        User u = new User(outcome);
 
         return u;
     }
@@ -98,7 +98,7 @@ public class Server {
         Item item = null;
         while (iterator.hasNext()) {
             item = iterator.next();
-            User u = new User((String) item.get("name"), (List<User>) item.get("friends"), (List<Event>) item.get("events"), (int) item.get("score"), (String) item.get("userId"), (String) item.get("account"));
+            User u = new User(item);
             matches.add(u);
         }
         return matches;
