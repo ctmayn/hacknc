@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PoolIt</string>
+    <string name="emailHeader">Email</string>
+    <string name="passwordHeader">Password</string>
 </resources>
