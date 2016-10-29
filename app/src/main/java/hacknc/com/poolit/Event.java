@@ -8,25 +8,25 @@ import java.util.*;
 
 
 public class Event {
-    /** (The name of the event.) */
+    /** The name of the event. */
     private String title;
-    /** (The info for the event.) */
+    /** The info for the event. */
     private String info;
-    /** (The target amount of dollars for the event.) */
+    /** The target amount of dollars for the event. */
     private double target;
-    /** ( The current amount of dollars for the event.) */
+    /**  The current amount of dollars for the event. */
     private double currentAmount;
-    /** (The owner of the event.) */
+    /** The owner of the event. */
     private User owner;
-    /** (A list of members who are attending the event.) */
+    /** A list of members who are attending the event. */
     private List<User> members;
-    /** (A list of members who have been invited.) */
+    /** A list of members who have been invited. */
     private List<User> pending;
-    /** (A list of members who have contributed money to the event.) */
+    /** A list of members who have contributed money to the event. */
     private List<User> contributors;
-    /** (A list of the contributions that have been made to the event.) */
+    /** A list of the contributions that have been made to the event. */
     private List<Double> contributions;
-    /** (The date of the event.) */
+    /** The date of the event. */
     private Date eventDate;
     private String eventID;
 
