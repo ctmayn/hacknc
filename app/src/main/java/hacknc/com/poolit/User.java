@@ -1,5 +1,7 @@
 package hacknc.com.poolit;
 
+import com.amazonaws.services.dynamodbv2.document.Item;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +31,16 @@ public class User {
         this.events = events;
         this.score = score;
         this.userID = userID;
+    }
+    
+    public User(Item i) {
+        this.name = (String) i.get("name");
+        this.friends = (List<User>) i.get("friends");
+        this.events = (List<Event>) i.get("events");
+        this.score = (int) i.get("score");
+        this.userID = (String) i.get("userId");
+        this.accountID = (String) i.get("account");
+
     }
 
     /**
