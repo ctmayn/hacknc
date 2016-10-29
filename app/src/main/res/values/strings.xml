@@ -3,4 +3,5 @@
     <string name="emailHeader">Email</string>
     <string name="passwordHeader">Password</string>
     <string name="loginText">Log In</string>
+    <string name="contact">Brandon Fisher</string>
 </resources>
