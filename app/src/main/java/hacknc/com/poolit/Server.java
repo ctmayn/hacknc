@@ -173,7 +173,22 @@ public class Server {
      */
     public List<Event> getEvents(User user) {
         // Returns the events this user has created or been invited to
-        return null;
+        
+        Table table = db.getTable("Events");
+
+        ItemCollection<ScanOutcome> list = table.scan();
+
+        ArrayList<Event> matches = new ArrayList<>();
+        Iterator<Item> iterator = list.iterator();
+        Item item = null;
+        while (iterator.hasNext()) {
+            item = iterator.next();
+            List<String> users = item.getList("members");
+            if (users.contains(user.getID())) {
+                matches.add(new Event(item));
+            }
+        }
+        return matches;
     }
 
     /**
