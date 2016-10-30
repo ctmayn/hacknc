@@ -9,7 +9,6 @@ import java.util.List;
  */
 
 public class Manager {
-    private List<User> users;
     private User currentUser;
 
     public void login(String id, String pass) throws Exception {
@@ -24,15 +23,6 @@ public class Manager {
 
         return currentUser.getFriends();
 
-    }
-
-    public void addUser(User u){
-        for(User use: users){
-            if(u == use){
-                return;
-            }
-        }
-        users.add(u);
     }
 
 
