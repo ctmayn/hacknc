@@ -13,7 +13,7 @@ import java.util.List;
 public class User {
     private List<Long> friends;
     private String name;
-    private List<Event> events;
+    private List<Long> events;
     private int score;
     private long userID;
     private String accountID;
@@ -21,14 +21,14 @@ public class User {
     public User(String name) {
         friends = new ArrayList<Long>();
         this.name = name;
-        events = new ArrayList<Event>();
+        events = new ArrayList<Long>();
         score = 0;
     }
     
     public User(Item i) {
         this.name = (String) i.get("name");
         this.friends = (List<Long>) i.get("friends");
-        this.events = (List<Event>) i.get("events");
+        this.events = (List<Long>) i.get("events");
         this.score = (int) i.get("score");
         this.userID = (long) i.get("userId");
         this.accountID = (String) i.get("account");
@@ -53,13 +53,14 @@ public class User {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public List<Event> getEvents() { return events; }
+    public List<Long> getEvents() { return events; }
     public void addEvent(String name, String info, double target, Date date, User[] members) {
         Event e = new Event(name, info, target, this, date); // Fill in relevant info
         for (User u : members) {
             e.addPending(u);
         }
-        events.add(e);
+        long id = e.getID();
+        events.add(id);
 
         // Push event to server, add event to server's copy of each member's copy of "events"
         Server.getInstance().addEvent(e);
@@ -71,7 +72,7 @@ public class User {
     public long getID() { return userID; }
 
     public void setID(long userID) { this.userID = userID; }
-        
+
     public int getScore() { return score; }
 
 
