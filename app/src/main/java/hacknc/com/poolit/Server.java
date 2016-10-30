@@ -135,7 +135,7 @@ public class Server {
         UpdateItemOutcome updateId =  ids.updateItem(
                 "table",          // key attribute name
                 "Users",           // key attribute value
-                "add #A :val1", // UpdateExpression
+                "set #A = #A + :val1", // UpdateExpression
                 expressionAttributeNames,
                 expressionAttributeValues);
 
@@ -215,7 +215,7 @@ public class Server {
         UpdateItemOutcome updateId =  ids.updateItem(
                 "table",          // key attribute name
                 "Events",           // key attribute value
-                "add #A :val1", // UpdateExpression
+                "set #A = #A + :val1", // UpdateExpression
                 expressionAttributeNames,
                 expressionAttributeValues);
 
@@ -246,8 +246,24 @@ public class Server {
             System.err.println(e.getMessage());
         }
     }
-    public void RSVP(String eventID, String userID, boolean accept){
-        //Server finds a user by an ID, and an event by an ID. It then updates the lists in the event.
+    public void RSVP(long eventID, long userID, boolean accept){
+        Table events = db.getTable("Events");
+
+        Map<String, String> expressionAttributeNames = new HashMap<String, String>();
+        expressionAttributeNames.put("#A", "members");
+        expressionAttributeNames.put("#B", "pending");
+
+        Map<String, Object> expressionAttributeValues = new HashMap<String, Object>();
+        expressionAttributeValues.put(":val1", userID);
+
+        UpdateItemOutcome updateList =  events.updateItem(
+                "eventId",          // key attribute name
+                eventID,           // key attribute value
+                "add #A :val1 remove #B :val1", // UpdateExpression
+                expressionAttributeNames,
+                expressionAttributeValues);
+
+        // TODO: Verify this is accurate. I don't know.
 
     }
     public User login(String userName, String hashed){
