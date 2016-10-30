@@ -2,9 +2,16 @@ package hacknc.com.poolit;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+
+import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
+import com.amazonaws.services.dynamodbv2.document.ScanOutcome;
+import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
@@ -108,8 +115,55 @@ public class Server {
      * Puts a new user on the server
      * @param user The user to add
      */
-    public void addAccount(User user) {
-        // Adds a new user to the server
+    public void addUser(User user) {
+        Table ids = db.getTable("Ids");
+
+        GetItemSpec spec = new GetItemSpec()
+                .withPrimaryKey("table", "Users");
+
+        Item id = ids.getItem(spec);
+
+        int userId = (int) id.get("id");
+
+        Map<String, String> expressionAttributeNames = new HashMap<String, String>();
+        expressionAttributeNames.put("#A", "id");
+
+        Map<String, Object> expressionAttributeValues = new HashMap<String, Object>();
+        expressionAttributeValues.put(":val1", 1);
+
+        UpdateItemOutcome updateId =  ids.updateItem(
+                "table",          // key attribute name
+                "Users",           // key attribute value
+                "add #A :val1", // UpdateExpression
+                expressionAttributeNames,
+                expressionAttributeValues);
+
+
+        Table table = db.getTable("Users");
+
+        ItemCollection<ScanOutcome> items = table.scan();
+
+
+        final Map<String, Object> infoMap = new HashMap<>();
+        infoMap.put("friends",  user.getFriends());
+        infoMap.put("events",  user.getEvents());
+        infoMap.put("name",  user.getName());
+        infoMap.put("score",  user.getScore());
+        infoMap.put("accountID",  user.getAccountID());
+
+        // TODO: This will probably fail miserably
+
+        try {
+            user.setID(Double.toString(userId));
+            PutItemOutcome outcome = table.putItem(new Item()
+                    .withPrimaryKey("userId", userId)
+                    .withMap("info", infoMap));
+
+
+        } catch (Exception e) {
+            System.err.println("Unable to add user.");
+            System.err.println(e.getMessage());
+        }
     }
 
     /**

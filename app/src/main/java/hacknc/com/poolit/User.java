@@ -67,6 +67,9 @@ public class User {
     public void incrementScore(int i) { score += i; }
 
     public String getID() { return userID; }
+    public void setID(String userID) { this.userID = userID; }
+
+    public int getScore() { return score; }
 
     public void sync() {
         // Find server's copy of this User, sync values
