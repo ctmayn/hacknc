@@ -32,6 +32,13 @@ public class Manager {
     public void addFriend(User friend){
         currentUser.addFriend(friend);
     }
+    public void addEvent(Event event){
+        Server.getInstance().addEvent(event);
+    }
+
+    public void removeFriend(User friend){
+        currentUser.removeFriend(friend);
+    }
 
     public List<Event> userEvents(){
         return  currentUser.getEvents();

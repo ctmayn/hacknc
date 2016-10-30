@@ -75,4 +75,12 @@ public class User {
     public String getAccountID(){
         return accountID;
     }
+
+    public void removeFriend(User friend){
+        for(User u: friends){
+            if(friend == u){
+                friends.remove(u);
+            }
+        }
+    }
 }
