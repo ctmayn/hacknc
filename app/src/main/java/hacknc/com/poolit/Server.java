@@ -26,6 +26,7 @@ import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
 import com.amazonaws.services.dynamodbv2.model.KeyType;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
+import com.amazonaws.services.dynamodbv2.xspec.GetItemExpressionSpec;
 
 
 /**
@@ -58,7 +59,7 @@ public class Server {
         return instance;
     }
 
-    public User getUser(String userID) {
+    public User getUser(long userID) {
         GetItemSpec spec = new GetItemSpec()
                 .withPrimaryKey("userId", userID);
 
@@ -71,7 +72,7 @@ public class Server {
         return u;
     }
 
-    public Event getEvent(String eventID) {
+    public Event getEvent(long eventID) {
         GetItemSpec spec = new GetItemSpec()
                 .withPrimaryKey("eventId", eventID);
 
@@ -173,7 +174,7 @@ public class Server {
      */
     public List<Event> getEvents(User user) {
         // Returns the events this user has created or been invited to
-        
+
         Table table = db.getTable("Events");
 
         ItemCollection<ScanOutcome> list = table.scan();
@@ -203,9 +204,26 @@ public class Server {
         //Server finds a user by an ID, and an event by an ID. It then updates the lists in the event.
 
     }
-    public User login(String userID, String pass){
+    public User login(String userName, String hashed){
         //Input an id and a hashed pass, returns a matching user.
-        User u = this.getUser(userID);
+        QuerySpec spec = new QuerySpec()
+                .withKeyConditionExpression("name")
+                .withValueMap(new ValueMap()
+                        .withString("userName", userName)
+                        .withString("password", hashed));
+
+
+        Table table = db.getTable("Users");
+
+        ItemCollection<QueryOutcome> list = table.query(spec);
+
+        ArrayList<User> matches = new ArrayList<>();
+        Iterator<Item> iterator = list.iterator();
+        Item item = null;
+        if (iterator.hasNext()) {
+            item = iterator.next();
+            return new User(item);
+        }
 
         return null;
     }
