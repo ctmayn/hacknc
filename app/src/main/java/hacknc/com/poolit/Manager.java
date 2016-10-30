@@ -2,6 +2,7 @@ package hacknc.com.poolit;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,8 +41,15 @@ public class Manager {
      * @return The list of friends.
      */
     public List<User> friends(){
+        List<Long> ids = currentUser.getFriends();
 
-        return currentUser.getFriends();
+        List<User> listFriends = new ArrayList<User>();
+        for(long i: ids){
+            User friend = Server.getInstance().getUser(i);
+            listFriends.add(friend);
+        }
+
+        return listFriends;
 
     }
 

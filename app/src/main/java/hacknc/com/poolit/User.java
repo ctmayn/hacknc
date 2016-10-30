@@ -71,7 +71,7 @@ public class User {
     public long getID() { return userID; }
 
     public void setID(long userID) { this.userID = userID; }
-        
+
     public int getScore() { return score; }
 
 
