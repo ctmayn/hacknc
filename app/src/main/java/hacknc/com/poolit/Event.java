@@ -29,7 +29,8 @@ public class Event {
     /** A list of the contributions that have been made to the event. */
     private List<Double> contributions;
     /** The date of the event. */
-    private Date eventDate;
+    private Date eventDate
+    /** The ID of the event. */
     private String eventID;
 
     public Event(String tit, String info, double target, User owner, Date date){
@@ -151,9 +152,18 @@ public class Event {
     }
 
 
+    /**
+     * Gets the info of the event.
+     * @return The info for the event.
+     */
     public String getInfo(){
         return info;
     }
+
+    /**
+     * Sets the info for the event.
+     * @param inf The info to be set.
+     */
     public void setInfo(String inf){
         info = inf;
     }
