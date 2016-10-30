@@ -12,4 +12,5 @@ public class serverTest {
     public void testGetInstance(){
         assertFalse(Server.getInstance() == null);
     }
+    
 }
