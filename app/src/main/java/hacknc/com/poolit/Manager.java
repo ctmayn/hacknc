@@ -25,6 +25,17 @@ public class Manager {
 
     }
 
+    public List<User> findUser(String name){
+        return Server.getInstance().getUsersByName(name);
+    }
+
+    public void addFriend(User friend){
+        currentUser.addFriend(friend);
+    }
+
+    public List<Event> userEvents(){
+        return  currentUser.getEvents();
+    }
 
 
 }

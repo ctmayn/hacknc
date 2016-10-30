@@ -134,8 +134,10 @@ public class Server {
         //Server finds a user by an ID, and an event by an ID. It then updates the lists in the event.
 
     }
-    public User login(String id, String pass){
+    public User login(String userID, String pass){
         //Input an id and a hashed pass, returns a matching user.
+        User u = this.getUser(userID);
+
         return null;
     }
 }
