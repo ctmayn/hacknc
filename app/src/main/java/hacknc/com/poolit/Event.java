@@ -29,7 +29,7 @@ public class Event {
     /** A list of the contributions that have been made to the event. */
     private List<Double> contributions;
     /** The date of the event. */
-    private Date eventDate
+    private Date eventDate;
     /** The ID of the event. */
     private long eventID;
 
