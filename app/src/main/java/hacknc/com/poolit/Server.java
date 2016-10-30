@@ -40,11 +40,9 @@ public class Server {
 
     private Server() {
         AmazonDynamoDBClient client = new AmazonDynamoDBClient()
-                .withEndpoint("http://localhost:8000");
+                .withEndpoint("http://ec2-35-161-91-193.us-west-2.compute.amazonaws.com/");
 
         db = new DynamoDB(client);
-
-
     }
 
     /**
