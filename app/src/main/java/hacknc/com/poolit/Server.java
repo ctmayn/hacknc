@@ -26,6 +26,7 @@ import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
 import com.amazonaws.services.dynamodbv2.model.KeyType;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
+import com.amazonaws.services.dynamodbv2.xspec.GetItemExpressionSpec;
 
 
 /**
@@ -58,7 +59,7 @@ public class Server {
         return instance;
     }
 
-    public User getUser(String userID) {
+    public User getUser(long userID) {
         GetItemSpec spec = new GetItemSpec()
                 .withPrimaryKey("userId", userID);
 
@@ -71,7 +72,7 @@ public class Server {
         return u;
     }
 
-    public Event getEvent(String eventID) {
+    public Event getEvent(long eventID) {
         GetItemSpec spec = new GetItemSpec()
                 .withPrimaryKey("eventId", eventID);
 
@@ -123,7 +124,7 @@ public class Server {
 
         Item id = ids.getItem(spec);
 
-        int userId = (int) id.get("id");
+        long userId = (long) id.get("id");
 
         Map<String, String> expressionAttributeNames = new HashMap<String, String>();
         expressionAttributeNames.put("#A", "id");
@@ -154,7 +155,7 @@ public class Server {
         // TODO: This will probably fail miserably
 
         try {
-            user.setID(Double.toString(userId));
+            user.setID(userId);
             PutItemOutcome outcome = table.putItem(new Item()
                     .withPrimaryKey("userId", userId)
                     .withMap("info", infoMap));
@@ -173,7 +174,7 @@ public class Server {
      */
     public List<Event> getEvents(User user) {
         // Returns the events this user has created or been invited to
-        
+
         Table table = db.getTable("Events");
 
         ItemCollection<ScanOutcome> list = table.scan();
@@ -196,16 +197,79 @@ public class Server {
      * @param event The event to add to the server
      */
     public void addEvent(Event event) {
-        // For each account in event.getMembers(), add event to their list of events
-        // Do the same for event.getOwner()
+        Table ids = db.getTable("Ids");
+
+        GetItemSpec spec = new GetItemSpec()
+                .withPrimaryKey("table", "Events");
+
+        Item id = ids.getItem(spec);
+
+        long eventId = (long) id.get("id");
+
+        Map<String, String> expressionAttributeNames = new HashMap<String, String>();
+        expressionAttributeNames.put("#A", "id");
+
+        Map<String, Object> expressionAttributeValues = new HashMap<String, Object>();
+        expressionAttributeValues.put(":val1", 1);
+
+        UpdateItemOutcome updateId =  ids.updateItem(
+                "table",          // key attribute name
+                "Events",           // key attribute value
+                "add #A :val1", // UpdateExpression
+                expressionAttributeNames,
+                expressionAttributeValues);
+
+
+        Table table = db.getTable("Events");
+
+        ItemCollection<ScanOutcome> items = table.scan();
+
+
+        final Map<String, Object> infoMap = new HashMap<>();
+        infoMap.put("title",  event.getTitle());
+        infoMap.put("info",  event.getInfo());
+        infoMap.put("target",  event.getTarget());
+        infoMap.put("currentAmount",  event.getCurrent());
+        infoMap.put("owner",  event.getOwner().getID());
+
+        // TODO: Add the rest of the fields. Update Event table to have fields
+
+        try {
+            event.setID(eventId);
+            PutItemOutcome outcome = table.putItem(new Item()
+                    .withPrimaryKey("eventId", eventId)
+                    .withMap("info", infoMap));
+
+
+        } catch (Exception e) {
+            System.err.println("Unable to add user.");
+            System.err.println(e.getMessage());
+        }
     }
     public void RSVP(String eventID, String userID, boolean accept){
         //Server finds a user by an ID, and an event by an ID. It then updates the lists in the event.
 
     }
-    public User login(String userID, String pass){
+    public User login(String userName, String hashed){
         //Input an id and a hashed pass, returns a matching user.
-        User u = this.getUser(userID);
+        QuerySpec spec = new QuerySpec()
+                .withKeyConditionExpression("name")
+                .withValueMap(new ValueMap()
+                        .withString("userName", userName)
+                        .withString("password", hashed));
+
+
+        Table table = db.getTable("Users");
+
+        ItemCollection<QueryOutcome> list = table.query(spec);
+
+        ArrayList<User> matches = new ArrayList<>();
+        Iterator<Item> iterator = list.iterator();
+        Item item = null;
+        if (iterator.hasNext()) {
+            item = iterator.next();
+            return new User(item);
+        }
 
         return null;
     }
