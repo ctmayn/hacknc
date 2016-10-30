@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.ScanOutcome;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
@@ -39,7 +40,17 @@ public class Server {
     private DynamoDB db;
 
     private Server() {
-        AmazonDynamoDBClient client = new AmazonDynamoDBClient()
+        AmazonDynamoDBClient client = new AmazonDynamoDBClient(new AWSCredentials() {
+            @Override
+            public String getAWSAccessKeyId() {
+                return "AKIAJ6VFNJIQ4O6SY3JA";
+            }
+
+            @Override
+            public String getAWSSecretKey() {
+                return "puBqp8Y2gWqiaP4TlZ9Qrr0AwThKFV7rRxewHCKr";
+            }
+        })
                 .withEndpoint("http://ec2-35-161-91-193.us-west-2.compute.amazonaws.com/");
 
         db = new DynamoDB(client);
