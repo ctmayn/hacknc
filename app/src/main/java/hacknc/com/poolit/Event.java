@@ -31,7 +31,7 @@ public class Event {
     /** The date of the event. */
     private Date eventDate
     /** The ID of the event. */
-    private String eventID;
+    private long eventID;
 
     public Event(String tit, String info, double target, User owner, Date date){
         this.setTitle(tit);
@@ -57,7 +57,7 @@ public class Event {
         contributors = (List<User>) i.get("contributors");
         contributions = (List<Double>) i.get("contributions");
         eventDate = (Date) i.get("date");
-        eventID = (String) i.get("userId");
+        eventID = (long) i.get("userId");
     }
     /**
      * Returns the target funding.
@@ -209,7 +209,7 @@ public class Event {
      * Returns the unique ID for this event
      * @return Returns the eventID.
      */
-    public String getID(){
+    public long getID(){
         return eventID;
     }
 
@@ -227,6 +227,9 @@ public class Event {
      */
     public void setEventDate(Date date){
         eventDate = date;
+    }
+    public void setID(long id){
+        this.eventID = id;
     }
 
 

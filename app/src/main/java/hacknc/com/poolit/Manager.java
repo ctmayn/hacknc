@@ -91,7 +91,13 @@ public class Manager {
      * @return The events the user is a part of.
      */
     public List<Event> userEvents(){
-        return  currentUser.getEvents();
+        List<Long> events = currentUser.getEvents();
+        List<Event> eventList = new ArrayList<Event>();
+        for(long i: events){
+            Event e = Server.getInstance().getEvent(i);
+            eventList.add(e);
+        }
+        return  eventList;
     }
 
     /**
@@ -101,6 +107,7 @@ public class Manager {
     public void addUser(User user){
         Server.getInstance().addUser(user);
     }
+
     public void createUser(String name) {
         User user = new User(name);
         this.addUser(user);
