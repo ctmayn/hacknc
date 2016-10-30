@@ -85,6 +85,9 @@ public class Manager {
     public List<Event> userEvents(){
         return  currentUser.getEvents();
     }
+    public void addUser(User user){
+        Server.getInstance().addUser(user);
+    }
 
 
 }
