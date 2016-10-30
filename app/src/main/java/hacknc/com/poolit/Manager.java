@@ -85,8 +85,17 @@ public class Manager {
     public List<Event> userEvents(){
         return  currentUser.getEvents();
     }
+
+    /**
+     *
+     * @param user The user to be added.
+     */
     public void addUser(User user){
         Server.getInstance().addUser(user);
+    }
+    public void createUser(String name) {
+        User user = new User(name);
+        this.addUser(user);
     }
 
 
