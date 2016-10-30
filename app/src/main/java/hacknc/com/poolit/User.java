@@ -11,15 +11,15 @@ import java.util.List;
  */
 
 public class User {
-    private List<User> friends;
+    private List<Long> friends;
     private String name;
     private List<Event> events;
     private int score;
-    private String userID;
+    private long userID;
     private String accountID;
 
     public User(String name) {
-        friends = new ArrayList<User>();
+        friends = new ArrayList<Long>();
         this.name = name;
         events = new ArrayList<Event>();
         score = 0;
@@ -27,10 +27,10 @@ public class User {
     
     public User(Item i) {
         this.name = (String) i.get("name");
-        this.friends = (List<User>) i.get("friends");
+        this.friends = (List<Long>) i.get("friends");
         this.events = (List<Event>) i.get("events");
         this.score = (int) i.get("score");
-        this.userID = (String) i.get("userId");
+        this.userID = (long) i.get("userId");
         this.accountID = (String) i.get("account");
 
     }
@@ -39,14 +39,15 @@ public class User {
      * Returns the list of friends associated with this user
      * @return The friends attached to this account
      */
-    public List<User> getFriends() { return friends; }
+    public List<Long> getFriends() { return friends; }
 
     /**
      * Adds a new friend to this user given a name
      * @param friend The name of the account you want to add
      */
     public void addFriend(User friend) {
-        friends.add(friend);
+        long id = friend.getID();
+        friends.add(id);
     }
 
     public String getName() { return name; }
@@ -66,10 +67,13 @@ public class User {
 
     public void incrementScore(int i) { score += i; }
 
-    public String getID() { return userID; }
-    public void setID(String userID) { this.userID = userID; }
 
+    public long getID() { return userID; }
+
+    public void setID(long userID) { this.userID = userID; }
+        
     public int getScore() { return score; }
+
 
     public void sync() {
         // Find server's copy of this User, sync values
@@ -80,9 +84,10 @@ public class User {
     }
 
     public void removeFriend(User friend){
-        for(User u: friends){
-            if(friend == u){
-                friends.remove(u);
+        long id = friend.getID();
+        for(long i: friends){
+            if(id == i){
+                friends.remove(i);
             }
         }
     }

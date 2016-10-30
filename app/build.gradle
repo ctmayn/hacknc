@@ -28,4 +28,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.reimaginebanking.api:nessie-android-sdk:1.0.4'
     compile 'com.amazonaws:aws-java-sdk:1.11.49'
+    compile project(':BCrypt')
 }
