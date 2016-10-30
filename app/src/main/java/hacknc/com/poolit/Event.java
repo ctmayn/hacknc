@@ -59,24 +59,19 @@ public class Event {
         eventID = (String) i.get("userId");
     }
     /**
-     *
-     * @return Returns the target number of dollars for the event.
+     * Returns the target funding.
+     * @return The goal in dollars.
      */
-    public double getTarget(){
-        return target;
-
-    }
+    public double getTarget(){ return target; }
 
     /**
-     *
-     * @param tar Sets the target number of dollars for the event.
+     * Sets target to a new value
+     * @param tar The new value for target.
      */
-    private void setTarget(double tar){
-        target = tar;
-    }
+    private void setTarget(double tar){ target = tar; }
 
     /**
-     *
+     * Returns the current amount of money contributed
      * @return currentAmount The current amount of money in the pot.
      */
     public double getCurrent(){
@@ -84,6 +79,7 @@ public class Event {
     }
 
     /**
+     * Allows a user to contribute a given amount to the Event.
      * @param account The contributing User
      * @param amount The amount to be contributed
      */
@@ -94,7 +90,7 @@ public class Event {
     }
 
     /**
-     *
+     * Confirms a member is attending
      * @param acc The member to be added to the list of members.
      */
     private void addMember(User acc){
@@ -102,7 +98,7 @@ public class Event {
     }
 
     /**
-     *
+     * Returns a list of confirmed attending members.
      * @return A list of members who are a part of the event.
      */
     public List<User> getMembers(){
@@ -110,16 +106,22 @@ public class Event {
     }
 
     /**
-     *
+     * Adds a member to the contributors list, as well as an amount contributed
      * @param account The contributor to be added to the list of contributors.
      */
     private void addContributor(User account, double amount){
+        for (int i = 0; i < contributors.size(); i++) {
+            if (contributors.get(i).equals(account)) {
+                contributions.set(i, contributions.get(i) + amount);
+                return;
+            }
+        }
         contributors.add(account);
         contributions.add(amount);
     }
 
     /**
-     *
+     * Returns those who have contributed
      * @return A list of contributors who have given to the event.
      */
     public List<User> getContributors(){
@@ -127,20 +129,28 @@ public class Event {
     }
 
     /**
-     *
-     * @return Returns the title of the event.
+     * Returns a list of contributions, index matched to contributors
+     * @return A list of contributions to the event.
+     */
+    public List<Double> getContributions() { return contributions; }
+
+    /**
+     * Returns the title of the Event
+     * @return The title of the event.
      */
     public String getTitle(){
         return title;
     }
 
     /**
-     *
-     * @param tit The title that of the event.
+     * Sets the title of the event
+     * @param title The title that of the event.
      */
-    public void setTitle(String tit){
-        title = tit;
+    public void setTitle(String title){
+        this.title = title;
     }
+
+
     public String getInfo(){
         return info;
     }
@@ -148,6 +158,11 @@ public class Event {
         info = inf;
     }
 
+    /**
+     * Allows a user to RSVP to the event
+     * @param acc The user in question.
+     * @param response Whether they confirmed or denied attendance.
+     */
     public void acceptdeny(User acc, boolean response){
         Server.getInstance().RSVP(this.getID(), acc.getID(), response);
         pending.remove(acc);
@@ -157,7 +172,7 @@ public class Event {
     }
 
     /**
-     *
+     * Invites a user to the event.
      * @param acc Adds the user to the pending list.
      */
     public void addPending(User acc) {
@@ -165,7 +180,7 @@ public class Event {
     }
 
     /**
-     *
+     * Sets the owner of the event
      * @param acc Sets the user to be the owner.
      */
     private void setOwner(User acc){
@@ -173,7 +188,7 @@ public class Event {
     }
 
     /**
-     *
+     * Returns the user in charge of the event.
      * @return Returns the owner of the event.
      */
     public User getOwner(){
@@ -181,7 +196,7 @@ public class Event {
     }
 
     /**
-     *
+     * Returns the unique ID for this event
      * @return Returns the eventID.
      */
     public String getID(){
@@ -189,7 +204,7 @@ public class Event {
     }
 
     /**
-     *
+     * Returns the date the event takes place
      * @return The date of the event.
      */
     public Date getEventDate(){
@@ -197,7 +212,7 @@ public class Event {
     }
 
     /**
-     *
+     * Sets the date the event takes place
      * @param date The date of the event to be set.
      */
     public void setEventDate(Date date){
